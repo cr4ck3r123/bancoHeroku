@@ -51,5 +51,16 @@ public class ClienteControl {
         
         return cliente;
     }
+    
+    //CONTROLE DELETAR 
+    public void deletar(int id){
+       int i = 0; 
+        ClienteDao dao = new ClienteDao();
+        
+      i = dao.delete(id);
+        if(i==1){
+            JOptionPane.showMessageDialog(null, "Deletado com sucesso!!!");
+        }
+    }
 
 }

@@ -227,6 +227,53 @@ public class TelaCliente extends javax.swing.JFrame {
         tabelas.setSelectedIndex(0);
 
     }
+    
+      //METODO LIMPAR CAMPOS
+    void limpar() {
+
+        txtDatNasc.setText("");
+        txtDatNasc.setEnabled(false);
+        lbDataNasc.setEnabled(false);
+        txtCelular.setText("");
+        lbCelular.setEnabled(false);
+        txtCelular.setEnabled(false);
+        lbTelefone.setEnabled(false);
+        txtTelefone.setText("");
+        txtTelefone.setEnabled(false);
+        txtNome.setText(null);
+        lbNome.setEnabled(false);
+        txtRG.setText(null);
+        lbRg.setEnabled(false);
+        txtRG.setEnabled(false);
+        txtEmail.setText(null);
+        txtEmail.setEnabled(false);
+        lbEmail.setEnabled(false);
+        lbCpf.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtNome.setText(null);
+        txtCpf.setEnabled(false);
+        txtCpf.setText(null);
+        lbPesq.setEnabled(true);
+        txtPesq.setEnabled(true);
+
+        //LIMPA DADOS ENDEREÇO
+        txtRua.setText(null);
+        txtNum.setText(null);
+        txtComplemento.setText(null);
+        txtCep.setText(null);
+        txtBairro.setText(null);
+        txtCidade.setText(null);
+        
+        btnEditar.setEnabled(false);
+        btnInserir.setEnabled(false);
+        btnRemover.setEnabled(false);
+        btnNovo.setEnabled(true);        
+        
+        tabelas.setEnabledAt(0, false);
+        tabelas.setEnabledAt(1, false);
+        tabelas.setSelectedIndex(0);
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -855,28 +902,21 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        /*
+        
          int resposta = JOptionPane.showConfirmDialog(txtComplemento, "Deseja realmente excluir os dados deste cliente", "Atenção!!!", JOptionPane.YES_NO_OPTION);
 
          if (resposta == JOptionPane.YES_OPTION) {
          int id = Integer.parseInt(txtId.getText());
-         ControllerCliente cliente = new ControllerCliente();
+         ClienteControl cliente = new ClienteControl();
          try {
-         cliente.deletarCliente(id);
-         tabela();
+         cliente.deletar(id);
+         listarTabela();
          limpar();
-         tabelas.setEnabledAt(0, true);
-         tabelas.setEnabledAt(1, false);
-         tabelas.setEnabledAt(2, false);
-         btnInserir.setEnabled(false);
-         btnEditar.setEnabled(false);
-         btnRemover.setEnabled(false);
-         tabelas.setSelectedIndex(0);
-
+         
          } catch (Exception ex) {
          Logger.getLogger(TelaUsuario.class.getName()).log(Level.SEVERE, null, ex);
          }
-         */
+         }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed

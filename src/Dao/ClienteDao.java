@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,8 +36,8 @@ public class ClienteDao {
             conexao = Conexao.conector();
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
-                           
-            while (rs.next()) {                
+
+            while (rs.next()) {
                 Cliente cliente = new Cliente();
                 cliente.setId(rs.getInt("id"));
                 cliente.setNome(rs.getString("nome"));
@@ -45,12 +47,12 @@ public class ClienteDao {
                 cliente.setTelefone(rs.getString("telefone"));
                 cliente.setCelular(rs.getString("celular"));
                 cliente.setEmail(rs.getString("email"));
-                lista.add(cliente);             
-                }
+                lista.add(cliente);
+            }
 
             conexao.close();
         } catch (Exception e) {
-            System.out.printf("erro"+ e);
+            System.out.printf("erro" + e);
         }
 
         return lista;
@@ -61,7 +63,7 @@ public class ClienteDao {
         int i = 0;
         String sql = "insert into cliente(nome, datanascimento, rg, cpf, telefone, celular, email) values\n"
                 + "(?, ?, ?, ?, ?, ?, ?);";
-        
+
         try {
             conexao = Conexao.conector();
             pst = conexao.prepareStatement(sql);
@@ -72,7 +74,7 @@ public class ClienteDao {
             pst.setString(5, cliente.getTelefone());
             pst.setString(6, cliente.getCelular());
             pst.setString(7, cliente.getEmail());
-            
+
             pst.execute();
             i = 1;
         } catch (Exception e) {
@@ -82,28 +84,51 @@ public class ClienteDao {
         return i;
     }
 
-    
     //METODO BUSCAR DADOS CLIENTE E ENDERECO
-    public Cliente buscarDados(int id) throws SQLException{
-        
-       String sql = "select * from cliente where id = ?"; 
-       Cliente cliente = new Cliente();
-       conexao = Conexao.conector();
-       pst = conexao.prepareStatement(sql);
-       pst.setInt(1, id);
-       rs = pst.executeQuery();
-       rs.next();
+    public Cliente buscarDados(int id) throws SQLException {
+
+        String sql = "select * from cliente where id = ?";
+        Cliente cliente = new Cliente();
+        conexao = Conexao.conector();
+        pst = conexao.prepareStatement(sql);
+        pst.setInt(1, id);
+        rs = pst.executeQuery();
+        rs.next();
+
+        cliente.setNome(rs.getString("nome"));
+        cliente.setDataNasc(rs.getDate("datanascimento"));
+        cliente.setRg(rs.getString("rg"));
+        cliente.setCpf(rs.getString("cpf"));
+        cliente.setTelefone(rs.getString("telefone"));
+        cliente.setCelular(rs.getString("celular"));
+        cliente.setEmail(rs.getString("email"));
+
+        conexao.close();
+        return cliente;
+    }
+
+    //DELETE CLIENTE
+    public int delete(int id) {
+        int i = 0;
+         String sql1 = "delete from endereco where idpessoa = ?";
+         String sql2 = "delete from cliente where id = ?";
        
-       
-       cliente.setNome(rs.getString("nome"));
-       cliente.setDataNasc(rs.getDate("datanascimento"));
-       cliente.setRg(rs.getString("rg"));
-       cliente.setCpf(rs.getString("cpf"));
-       cliente.setTelefone(rs.getString("telefone"));
-       cliente.setCelular(rs.getString("celular"));
-       cliente.setEmail(rs.getString("email"));
-       
-       conexao.close();
-       return cliente;      
+        conexao = Conexao.conector();
+        try {
+            pst = conexao.prepareStatement(sql1);
+            pst.setInt(1, id);
+            pst.execute();
+           i =1;
+            if (i == 1){
+            pst = conexao.prepareStatement(sql2);
+            pst.setInt(1, id);
+            pst.execute();          
+           }
+           i =1;
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);  
+            i = 0;
+        }
+        return i;
     }
 }
