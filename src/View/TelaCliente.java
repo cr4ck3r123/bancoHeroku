@@ -115,6 +115,16 @@ public class TelaCliente extends javax.swing.JFrame {
         btnNovo.setEnabled(false);
     }
 
+    
+    public void ativarNovo(){
+        btnPesq.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnInserir.setEnabled(true);
+        btnRemover.setEnabled(false);
+        btnNovo.setEnabled(false);
+    }
+    
+    
     //DESATIVA CAMPOS CLIENTE
     void desativarCliente() {
 
@@ -874,6 +884,7 @@ public class TelaCliente extends javax.swing.JFrame {
 
         try {
             ativarCliente();
+            ativarNovo();
         } catch (Exception ex) {
             Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
