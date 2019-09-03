@@ -147,10 +147,10 @@ public class TelaCliente extends javax.swing.JFrame {
         tblCliente.setEnabled(true);
 
         btnPesq.setEnabled(true);
-        btnEditar.setEnabled(true);
+        btnEditar.setEnabled(false);
         btnInserir.setEnabled(false);
-        btnRemover.setEnabled(true);
-        btnNovo.setEnabled(false);
+        btnRemover.setEnabled(false);
+        btnNovo.setEnabled(true);
     }
 
     //METODO LIMPAR CLIENTE
