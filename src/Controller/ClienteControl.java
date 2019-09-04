@@ -7,6 +7,7 @@ package Controller;
 
 import Dao.ClienteDao;
 import Model.Cliente;
+import Model.Endereco;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,4 +64,17 @@ public class ClienteControl {
         }
     }
 
+    public void editar(Cliente cliente, Endereco endereco) {
+        
+        try {
+        ClienteDao dao = new ClienteDao();
+        dao.editar(cliente, endereco); 
+        
+        System.out.print("CHEGOU!!!!");
+        } catch (Exception e) {
+        }
+          
+        
+        
+    }
 }

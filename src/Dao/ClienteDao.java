@@ -131,4 +131,46 @@ public class ClienteDao {
         }
         return i;
     }
+    
+    
+    //UPDATE 
+    public void editar(Cliente cliente, Endereco endereco){
+        
+        conexao = Conexao.conector();  
+       System.out.print("chegou");
+        try {
+        String sql1 = "update endereco set cep=?,  logradouro=?, complemento=?, bairro=?, localidade=?, uf=?, numero=? where idpessoa=?";
+        pst = conexao.prepareStatement(sql1);
+        pst.setString(1, endereco.getCep());
+        pst.setString(2, endereco.getLogradouro());
+        pst.setString(3, endereco.getComplemento());
+        pst.setString(4, endereco.getBairro());
+        pst.setString(5, endereco.getLocalidade());
+        pst.setString(6, endereco.getUf());
+        pst.setInt(7, endereco.getNumero());
+        pst.setInt(8, cliente.getId());
+        System.out.print(endereco.getPessoa_idpessoa());
+        pst.execute();       
+        
+        String sql2 = "update cliente set nome=?, datanascimento=?, rg=?, cpf=?, telefone=?, celular=?, email=? where id=?";
+            
+        pst = conexao.prepareStatement(sql2);
+        pst.setString(1, cliente.getNome());
+        pst.setDate(2, cliente.getDataNasc());
+        pst.setString(3, cliente.getRg());
+        pst.setString(4, cliente.getCpf());
+        pst.setString(5, cliente.getTelefone());
+        pst.setString(6, cliente.getCelular());
+        pst.setString(7, cliente.getEmail());
+        pst.setInt(8, cliente.getId());
+        pst.execute();
+        
+        } catch (SQLException e) {
+            
+            System.out.print(e);
+        }
+     
+       
+        
+    }
 }

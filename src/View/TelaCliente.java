@@ -274,6 +274,47 @@ public class TelaCliente extends javax.swing.JFrame {
         tabelas.setSelectedIndex(0);
         
     }
+    
+    
+    //EDITAR PESSOA
+    public void editar() {
+
+        String dataRecebida = txtDatNasc.getText();
+        String[] dataSeparada = dataRecebida.split("/");
+        LocalDate hoje = LocalDate.of(Integer.parseInt(dataSeparada[2]), Integer.parseInt(dataSeparada[1]), Integer.parseInt(dataSeparada[0]));
+
+        try {
+            Cliente cliente = new Cliente();       
+            cliente.setNome(txtNome.getText().toUpperCase());
+            cliente.setDataNasc(Date.valueOf(hoje));
+            cliente.setCpf(txtCpf.getText().toUpperCase());
+            cliente.setRg(txtRG.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            cliente.setCelular(txtCelular.getText());
+            cliente.setEmail(txtEmail.getText());
+            cliente.setId(Integer.parseInt(txtId.getText()));
+ 
+            Endereco endereco = new Endereco();
+            ClienteControl controllerEndereco = new ClienteControl();
+            endereco.setLogradouro(txtRua.getText().toUpperCase());
+            endereco.setNumero(Integer.parseInt(txtNum.getText()));
+            endereco.setComplemento(txtComplemento.getText().toUpperCase());
+            endereco.setCep(txtCep.getText());
+            endereco.setBairro(txtBairro.getText().toUpperCase());
+            endereco.setLocalidade(txtCidade.getText().toUpperCase());
+            endereco.setUf(cbEstado.getSelectedItem().toString().toUpperCase());
+            endereco.setId(Integer.parseInt(idEnd.getText()));
+                      
+            ClienteControl control = new ClienteControl();
+            control.editar(cliente, endereco);          
+
+        } catch (Exception ex) {
+          
+            System.out.printf(dataRecebida,ex);
+            //  Logger.getLogger(TelaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -881,10 +922,10 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        /*
+        
          try {
          editar();
-         tabela();
+         listarTabela();
 
          } catch (Exception ex) {
          Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -893,12 +934,11 @@ public class TelaCliente extends javax.swing.JFrame {
          limpar();
          tabelas.setEnabledAt(0, true);
          tabelas.setEnabledAt(1, false);
-         tabelas.setEnabledAt(2, false);
          btnInserir.setEnabled(false);
          btnEditar.setEnabled(false);
          btnRemover.setEnabled(false);
          tabelas.setSelectedIndex(0);
-         */
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
