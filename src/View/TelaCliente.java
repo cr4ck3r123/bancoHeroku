@@ -115,16 +115,14 @@ public class TelaCliente extends javax.swing.JFrame {
         btnNovo.setEnabled(false);
     }
 
-    
-    public void ativarNovo(){
+    public void ativarNovo() {
         btnPesq.setEnabled(false);
         btnEditar.setEnabled(false);
         btnInserir.setEnabled(true);
         btnRemover.setEnabled(false);
         btnNovo.setEnabled(false);
     }
-    
-    
+
     //DESATIVA CAMPOS CLIENTE
     void desativarCliente() {
 
@@ -227,8 +225,8 @@ public class TelaCliente extends javax.swing.JFrame {
         tabelas.setSelectedIndex(0);
 
     }
-    
-      //METODO LIMPAR CAMPOS
+
+    //METODO LIMPAR CAMPOS
     void limpar() {
 
         txtDatNasc.setText("");
@@ -263,19 +261,18 @@ public class TelaCliente extends javax.swing.JFrame {
         txtCep.setText(null);
         txtBairro.setText(null);
         txtCidade.setText(null);
-        
+
         btnEditar.setEnabled(false);
         btnInserir.setEnabled(false);
         btnRemover.setEnabled(false);
-        btnNovo.setEnabled(true);        
-        
+        btnNovo.setEnabled(true);
+
         tabelas.setEnabledAt(0, false);
         tabelas.setEnabledAt(1, false);
         tabelas.setSelectedIndex(0);
-        
+
     }
-    
-    
+
     //EDITAR PESSOA
     public void editar() {
 
@@ -284,7 +281,7 @@ public class TelaCliente extends javax.swing.JFrame {
         LocalDate hoje = LocalDate.of(Integer.parseInt(dataSeparada[2]), Integer.parseInt(dataSeparada[1]), Integer.parseInt(dataSeparada[0]));
 
         try {
-            Cliente cliente = new Cliente();       
+            Cliente cliente = new Cliente();
             cliente.setNome(txtNome.getText().toUpperCase());
             cliente.setDataNasc(Date.valueOf(hoje));
             cliente.setCpf(txtCpf.getText().toUpperCase());
@@ -293,7 +290,7 @@ public class TelaCliente extends javax.swing.JFrame {
             cliente.setCelular(txtCelular.getText());
             cliente.setEmail(txtEmail.getText());
             cliente.setId(Integer.parseInt(txtId.getText()));
- 
+
             Endereco endereco = new Endereco();
             ClienteControl controllerEndereco = new ClienteControl();
             endereco.setLogradouro(txtRua.getText().toUpperCase());
@@ -304,13 +301,16 @@ public class TelaCliente extends javax.swing.JFrame {
             endereco.setLocalidade(txtCidade.getText().toUpperCase());
             endereco.setUf(cbEstado.getSelectedItem().toString().toUpperCase());
             endereco.setId(Integer.parseInt(idEnd.getText()));
-                      
-            ClienteControl control = new ClienteControl();
-            control.editar(cliente, endereco);          
 
+            ClienteControl control = new ClienteControl();
+            int i = 0;
+            i = control.editar(cliente, endereco);
+            if(i == 1){
+                JOptionPane.showMessageDialog(txtComplemento, "Usuario editado com sucesso!!!");
+            }
         } catch (Exception ex) {
-          
-            System.out.printf(dataRecebida,ex);
+
+            System.out.printf(dataRecebida, ex);
             //  Logger.getLogger(TelaUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -922,41 +922,41 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        
-         try {
-         editar();
-         listarTabela();
 
-         } catch (Exception ex) {
-         Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            editar();
+            listarTabela();
 
-         }
-         limpar();
-         tabelas.setEnabledAt(0, true);
-         tabelas.setEnabledAt(1, false);
-         btnInserir.setEnabled(false);
-         btnEditar.setEnabled(false);
-         btnRemover.setEnabled(false);
-         tabelas.setSelectedIndex(0);
-        
+        } catch (Exception ex) {
+            Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        limpar();
+        tabelas.setEnabledAt(0, true);
+        tabelas.setEnabledAt(1, false);
+        btnInserir.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnRemover.setEnabled(false);
+        tabelas.setSelectedIndex(0);
+
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        
-         int resposta = JOptionPane.showConfirmDialog(txtComplemento, "Deseja realmente excluir os dados deste cliente", "Atenção!!!", JOptionPane.YES_NO_OPTION);
 
-         if (resposta == JOptionPane.YES_OPTION) {
-         int id = Integer.parseInt(txtId.getText());
-         ClienteControl cliente = new ClienteControl();
-         try {
-         cliente.deletar(id);
-         listarTabela();
-         limpar();
-         
-         } catch (Exception ex) {
-         Logger.getLogger(TelaUsuario.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         }
+        int resposta = JOptionPane.showConfirmDialog(txtComplemento, "Deseja realmente excluir os dados deste cliente", "Atenção!!!", JOptionPane.YES_NO_OPTION);
+
+        if (resposta == JOptionPane.YES_OPTION) {
+            int id = Integer.parseInt(txtId.getText());
+            ClienteControl cliente = new ClienteControl();
+            try {
+                cliente.deletar(id);
+                listarTabela();
+                limpar();
+
+            } catch (Exception ex) {
+                Logger.getLogger(TelaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
@@ -1019,37 +1019,32 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarActionPerformed
-          String rua = txtRua.getText();
-            int num = Integer.parseInt(txtNum.getText());
-            String cep = txtCep.getText();
-            String bairro = txtBairro.getText();
-            String cidade = txtCidade.getText();  
-        String url2 = "https://www.google.com.br/maps/search/"+rua.replace(" ", "%20")+",+"+num+",+foz%20do%20iguacu/data=!3m1!4b1";
-           
-        
+        String rua = txtRua.getText();
+        int num = Integer.parseInt(txtNum.getText());
+        String cep = txtCep.getText();
+        String bairro = txtBairro.getText();
+        String cidade = txtCidade.getText();
+        String url2 = "https://www.google.com.br/maps/search/" + rua.replace(" ", "%20") + ",+" + num + ",+foz%20do%20iguacu/data=!3m1!4b1";
+
         try {
             GoogleAPIControl control = new GoogleAPIControl();
-             control.abriMapa2(url2);
-          
+            control.abriMapa2(url2);
 
             //String key = "AIzaSyDZL37hvqGfIKRTun_KQ6uzt0SpuFRKJos";
             HttpExemplo http = new HttpExemplo();
             String key = "AIzaSyDZL37hvqGfIKRTun_KQ6uzt0SpuFRKJos";
             String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + rua.replace(" ", "%20") + "," + num + "," + bairro.replace(" ", "%20") + "," + cidade.replace(" ", "%20") + "+CA&key=" + key + "";
             String json = http.sendGet(url);
-           
+
             Gson gson = new Gson();
-            
-             java.lang.reflect.Type usuarioType = new TypeToken<GoogleAPI>() {
-        }.getType();
-             
+
+            java.lang.reflect.Type usuarioType = new TypeToken<GoogleAPI>() {
+            }.getType();
+
             GoogleAPI j = gson.fromJson(json, usuarioType);
-            
+
            // JOptionPane.showMessageDialog(txtComplemento, j.results[0].geometry.location.lat);
-            
            // j = loadResultFromJSONGson(getJson(new URL(url)));
-            
-            
 //            
             double lat = j.results[0].geometry.location.lat;
             double lng = j.results[0].geometry.location.lng;

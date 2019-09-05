@@ -134,8 +134,8 @@ public class ClienteDao {
     
     
     //UPDATE 
-    public void editar(Cliente cliente, Endereco endereco){
-        
+    public int editar(Cliente cliente, Endereco endereco){
+        int i = 0;
         conexao = Conexao.conector();  
        System.out.print("chegou");
         try {
@@ -164,13 +164,13 @@ public class ClienteDao {
         pst.setString(7, cliente.getEmail());
         pst.setInt(8, cliente.getId());
         pst.execute();
-        
+        i = 1;
         } catch (SQLException e) {
             
             System.out.print(e);
         }
      
        
-        
+        return i;
     }
 }

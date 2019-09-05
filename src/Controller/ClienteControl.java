@@ -64,17 +64,17 @@ public class ClienteControl {
         }
     }
 
-    public void editar(Cliente cliente, Endereco endereco) {
-        
+    public int editar(Cliente cliente, Endereco endereco) {
+        int i =0;
         try {
         ClienteDao dao = new ClienteDao();
-        dao.editar(cliente, endereco); 
+      i =  dao.editar(cliente, endereco); 
         
         System.out.print("CHEGOU!!!!");
         } catch (Exception e) {
         }
           
-        
+       return i; 
         
     }
 }
