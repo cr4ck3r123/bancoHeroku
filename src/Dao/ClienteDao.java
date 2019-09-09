@@ -8,6 +8,8 @@ package Dao;
 import Controller.ClienteControl;
 import Model.Cliente;
 import Model.Endereco;
+import static View.TelaVendas.tblClientes;
+import static View.TelaVendas.txtCliPesquisar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -172,5 +176,26 @@ public class ClienteDao {
      
        
         return i;
+    }
+    
+    
+    //Metodo para pesquisar clientes pelo nome com filtro
+    public void pesquisar_cliente(String nome) {
+        String sql = "select cliente.id, cliente.nome from cliente where nome like ?";
+        try {
+            conexao = Conexao.conector(); 
+            pst = conexao.prepareStatement(sql);
+            //Passando o conteudo da caixa de pesquisa para o ?
+            //Atenção ao "%" que e a continuação da string ao sql
+            pst.setString(1,nome  + "%");
+            rs = pst.executeQuery();
+            //a linha abaixo usa a biblioteca rs2xml.jar para preencher a tabela
+            tblClientes.setModel(DbUtils.resultSetToTableModel(rs));
+             conexao.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+       
     }
 }

@@ -5,6 +5,10 @@
  */
 package View;
 
+import Dao.ClienteDao;
+import Model.Venda;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Fernando
@@ -36,7 +40,7 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtCliId = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblClientesOs = new javax.swing.JTable();
+        tblClientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -70,7 +74,7 @@ public class TelaVendas extends javax.swing.JFrame {
         txtCliId.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtCliId.setEnabled(false);
 
-        tblClientesOs.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -81,12 +85,12 @@ public class TelaVendas extends javax.swing.JFrame {
                 "NOME", "FONE"
             }
         ));
-        tblClientesOs.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblClientesOsMouseClicked(evt);
+                tblClientesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblClientesOs);
+        jScrollPane1.setViewportView(tblClientes);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -109,18 +113,18 @@ public class TelaVendas extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCliPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtCliId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)))
+                        .addComponent(jLabel6))
+                    .addComponent(txtCliPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jLabel1.setText("NOME");
+        jLabel1.setText("PRODUTO");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(102, 0, 0));
@@ -244,17 +248,23 @@ public class TelaVendas extends javax.swing.JFrame {
     private void txtCliPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCliPesquisarKeyReleased
 
         // Chamando o Metodo Pesquisar clientes
-        String x = txtCliPesquisar.getText();
+        String x = txtCliPesquisar.getText().toUpperCase();
     
         try {
-           
+        
+            ClienteDao dao = new ClienteDao();
+             dao.pesquisar_cliente(x);
+            
+            
+            
         } catch (Exception ex) {
             // Logger.getLogger(TelaOrdemServico.class.getName()).log(Level.SEVERE, null, ex);
-       //     JOptionPane.showMessageDialog(rootPane, "Selecione o Cliente !!!");
+       //
+            JOptionPane.showMessageDialog(rootPane, ex);
         }
     }//GEN-LAST:event_txtCliPesquisarKeyReleased
 
-    private void tblClientesOsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesOsMouseClicked
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
         try {
             // Chamando o mentodo setar campos
 
@@ -264,7 +274,7 @@ public class TelaVendas extends javax.swing.JFrame {
       //      JOptionPane.showMessageDialog(rootPane, "Selecione o Cliente!!!");
             //Logger.getLogger(TelaOrdemServico.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_tblClientesOsMouseClicked
+    }//GEN-LAST:event_tblClientesMouseClicked
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
 
@@ -339,8 +349,8 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbParcelas;
-    public static javax.swing.JTable tblClientesOs;
+    public static javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtCliId;
-    private javax.swing.JTextField txtCliPesquisar;
+    public static javax.swing.JTextField txtCliPesquisar;
     // End of variables declaration//GEN-END:variables
 }
