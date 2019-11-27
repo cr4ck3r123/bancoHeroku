@@ -206,6 +206,8 @@
                   <Component id="jButton2" min="-2" pref="137" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="jButton3" min="-2" pref="137" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="jButton4" min="-2" pref="137" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -217,6 +219,7 @@
                   <Component id="jButton1" alignment="3" min="-2" pref="98" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" pref="98" max="-2" attributes="0"/>
                   <Component id="jButton3" alignment="3" min="-2" pref="98" max="-2" attributes="0"/>
+                  <Component id="jButton4" alignment="3" min="-2" pref="98" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -282,6 +285,20 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton4">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="18" style="1"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagens/list.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="O.S"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
