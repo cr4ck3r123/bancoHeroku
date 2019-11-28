@@ -195,7 +195,22 @@ public class ClienteDao {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
-       
+               
+    }
+    
+    //BUSCAR ULTIMO ID
+    public int buscarId(){
+        String sql = "select max(id)+1 as id from cliente";
+         int id = 0;
+        try {
+            conexao = Conexao.conector(); 
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+            id = rs.getInt("id");
+                    }
+        } catch (Exception e) {
+        }
+        return id;
     }
 }

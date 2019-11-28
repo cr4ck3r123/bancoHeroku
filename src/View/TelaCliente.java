@@ -11,10 +11,12 @@ import Controller.GoogleAPIControl;
 import static Controller.GoogleAPIControl.getJson;
 import static Controller.GoogleAPIControl.loadResultFromJSONGson;
 import Controller.HttpExemplo;
+import Dao.ClienteDao;
 import Dao.VeiculoDao;
 import Model.Cliente;
 import Model.Endereco;
 import Model.GoogleAPI;
+import Model.Veiculo;
 import Utilitarios.Mapa;
 import Utilitarios.MapaJ;
 import Utilitarios.MapaX;
@@ -54,19 +56,36 @@ public class TelaCliente extends javax.swing.JFrame {
      */
     public TelaCliente() {  
         initComponents();
-        listarMarcas();
+        int id = listarMarcas();
+        listarModelos(id);
      
     }
     
     //LISTAR MARCAS
-    public void listarMarcas(){
+    public int  listarMarcas(){
         VeiculoDao v = new VeiculoDao();
         List lista = v.jcomboxMarca();
         System.out.printf(String.valueOf(lista.size()));
-        cbmarca.setEnabled(true);
+       // cbmarca.setEnabled(false);
         for(int i=0;i<lista.size();i++){
         cbmarca.addItem(lista.get(i));
         }
+        System.out.print(v.pegarIdMarca());
+        return v.pegarIdMarca();
+    }
+    
+    //LISTAR MODELOS
+    public void listarModelos(int id){
+        
+        VeiculoDao v = new VeiculoDao();
+        List lista = v.jcomboxModelo(id);
+        System.out.printf(String.valueOf(lista.size()));
+       // cbmodelo.setEnabled(true);
+        for(int i=0;i<lista.size();i++){
+        cbmodelo.addItem(lista.get(i));
+        }
+        
+        
     }
 
     //LISTAR TABELA CLIENTES
@@ -162,9 +181,9 @@ public class TelaCliente extends javax.swing.JFrame {
 
         btnPesq.setEnabled(true);
         btnEditar.setEnabled(false);
-        btnInserir.setEnabled(false);
+        btnInserir.setEnabled(true);
         btnRemover.setEnabled(false);
-        btnNovo.setEnabled(true);
+        btnNovo.setEnabled(false);
     }
 
     //METODO LIMPAR CLIENTE
@@ -285,6 +304,7 @@ public class TelaCliente extends javax.swing.JFrame {
 
         tabelas.setEnabledAt(0, false);
         tabelas.setEnabledAt(1, false);
+        tabelas.setEnabledAt(2, false);
         tabelas.setSelectedIndex(0);
 
     }
@@ -392,19 +412,19 @@ public class TelaCliente extends javax.swing.JFrame {
         lbComplemento = new javax.swing.JLabel();
         btnVisualizar = new javax.swing.JButton();
         tbveiculo = new javax.swing.JPanel();
-        txtCep1 = new javax.swing.JTextField();
+        txtCor = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        idEnd1 = new javax.swing.JTextField();
+        idVeic = new javax.swing.JTextField();
         lbRua1 = new javax.swing.JLabel();
         lbCep1 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tbEndereco1 = new javax.swing.JTable();
-        txtComplemento1 = new javax.swing.JTextField();
+        tbVeiculo = new javax.swing.JTable();
+        txtAno = new javax.swing.JTextField();
         lbComplemento1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cbmodelo = new javax.swing.JComboBox();
         lbRua2 = new javax.swing.JLabel();
         cbmarca = new javax.swing.JComboBox();
-        txtCep2 = new javax.swing.JTextField();
+        txtKm = new javax.swing.JTextField();
         lbCep2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -864,18 +884,18 @@ public class TelaCliente extends javax.swing.JFrame {
 
         tbveiculo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        txtCep1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtCep1.setEnabled(false);
-        txtCep1.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtCor.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtCor.setEnabled(false);
+        txtCor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCep1FocusLost(evt);
+                txtCorFocusLost(evt);
             }
         });
 
         jLabel9.setText("ID");
         jLabel9.setEnabled(false);
 
-        idEnd1.setEnabled(false);
+        idVeic.setEnabled(false);
 
         lbRua1.setText("MODELO");
         lbRua1.setEnabled(false);
@@ -883,7 +903,7 @@ public class TelaCliente extends javax.swing.JFrame {
         lbCep1.setText("COR");
         lbCep1.setEnabled(false);
 
-        tbEndereco1.setModel(new javax.swing.table.DefaultTableModel(
+        tbVeiculo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -894,33 +914,41 @@ public class TelaCliente extends javax.swing.JFrame {
                 "ID", "MARCA", "MODELO", "ANO", "COR", "KM"
             }
         ));
-        tbEndereco1.setEnabled(false);
-        jScrollPane4.setViewportView(tbEndereco1);
+        tbVeiculo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbVeiculoMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tbVeiculo);
 
-        txtComplemento1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtComplemento1.setEnabled(false);
+        txtAno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtAno.setEnabled(false);
 
         lbComplemento1.setText("ANO");
         lbComplemento1.setEnabled(false);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setEnabled(false);
+        cbmodelo.setEnabled(false);
 
         lbRua2.setText("MARCA");
         lbRua2.setEnabled(false);
 
         cbmarca.setEnabled(false);
+        cbmarca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbmarcaItemStateChanged(evt);
+            }
+        });
         cbmarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbmarcaActionPerformed(evt);
             }
         });
 
-        txtCep2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtCep2.setEnabled(false);
-        txtCep2.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtKm.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtKm.setEnabled(false);
+        txtKm.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCep2FocusLost(evt);
+                txtKmFocusLost(evt);
             }
         });
 
@@ -946,16 +974,16 @@ public class TelaCliente extends javax.swing.JFrame {
                                     .addComponent(jLabel9)
                                     .addGap(485, 485, 485))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tbveiculoLayout.createSequentialGroup()
-                                    .addComponent(txtComplemento1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtCep1)
+                                        .addComponent(txtCor)
                                         .addGroup(tbveiculoLayout.createSequentialGroup()
                                             .addComponent(lbCep1)
                                             .addGap(0, 0, Short.MAX_VALUE)))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtCep2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtKm, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lbCep2))
                                     .addGap(15, 15, 15)))
                             .addComponent(jLabel3))
@@ -963,7 +991,7 @@ public class TelaCliente extends javax.swing.JFrame {
                     .addGroup(tbveiculoLayout.createSequentialGroup()
                         .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(tbveiculoLayout.createSequentialGroup()
-                                .addComponent(idEnd1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(idVeic, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbmarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -972,7 +1000,7 @@ public class TelaCliente extends javax.swing.JFrame {
                                         .addGap(0, 0, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbmodelo, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lbRua1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane4))
                         .addContainerGap())))
@@ -988,26 +1016,26 @@ public class TelaCliente extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(tbveiculoLayout.createSequentialGroup()
-                        .addComponent(idEnd1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(idVeic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tbveiculoLayout.createSequentialGroup()
                         .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox1)
+                            .addComponent(cbmodelo)
                             .addComponent(cbmarca))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(tbveiculoLayout.createSequentialGroup()
-                        .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbComplemento1)
-                            .addComponent(lbCep1))
+                        .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbCep1)
+                            .addComponent(lbComplemento1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComplemento1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(tbveiculoLayout.createSequentialGroup()
                         .addComponent(lbCep2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(tbveiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCep1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCep2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtCor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtKm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1100,9 +1128,26 @@ public class TelaCliente extends javax.swing.JFrame {
             control.validaEndereco(endereco);
             limparEndereco();
             desativarCliente();
+            tabelas.setEnabledAt(0, false);
+            tabelas.setEnabledAt(1, false);
+            tabelas.setEnabledAt(2, true);
+            tabelas.setSelectedIndex(2);
+            btnInsert = 2;
+        } else if (btnInsert == 2){
 
-        } else {
-
+            Veiculo v = new Veiculo();
+            VeiculoDao dao = new VeiculoDao();
+            
+//            v.setMarca(cbmarca.getSelectedItem().toString());
+//            v.setModelo(cbmodelo.getSelectedItem().toString());
+//            v.setAno(Integer.parseInt(txtAno.getText()));
+//            v.setCor(txtCor.getText());
+//            v.setKm(Double.parseDouble(txtKm.getText()));
+//            v.setId(Integer.parseInt(txtId.getText()));
+            
+            System.out.print(txtId.getText());
+            
+            
             btnInsert = 0;
 
         }
@@ -1148,8 +1193,11 @@ public class TelaCliente extends javax.swing.JFrame {
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
-
+        cbmarca.setEnabled(true);
+        cbmodelo.setEnabled(true);
         try {
+            ClienteDao dao = new ClienteDao();
+            txtId.setText(String.valueOf(dao.buscarId()));
             ativarCliente();
             ativarNovo();
         } catch (Exception ex) {
@@ -1163,6 +1211,8 @@ public class TelaCliente extends javax.swing.JFrame {
             
             setarCampos();
             setarEndereco();
+            setarVeiculo();
+            
             
         } catch (Exception ex) {
             Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -1262,17 +1312,45 @@ public class TelaCliente extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnVisualizarActionPerformed
 
-    private void txtCep1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCep1FocusLost
+    private void txtCorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCep1FocusLost
+    }//GEN-LAST:event_txtCorFocusLost
 
-    private void txtCep2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCep2FocusLost
+    private void txtKmFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKmFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCep2FocusLost
+    }//GEN-LAST:event_txtKmFocusLost
 
     private void cbmarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbmarcaActionPerformed
-        
+       
     }//GEN-LAST:event_cbmarcaActionPerformed
+
+    private void cbmarcaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbmarcaItemStateChanged
+         
+    }//GEN-LAST:event_cbmarcaItemStateChanged
+
+    private void tbVeiculoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbVeiculoMouseClicked
+      
+        try {
+            Veiculo veiculo = new Veiculo();
+            VeiculoDao v = new VeiculoDao();
+              int row = tbVeiculo.getSelectedRow();
+              int id = Integer.parseInt(tbVeiculo.getValueAt(row, 0).toString());
+               veiculo =  v.buscarDados(id);
+             
+              idVeic.setText(String.valueOf(veiculo.getId()));
+              cbmarca.setEnabled(true);
+              cbmodelo.setEnabled(true);
+              cbmarca.getModel().setSelectedItem(veiculo.getMarca());
+              cbmodelo.getModel().setSelectedItem(veiculo.getModelo());
+              txtAno.setEnabled(true);
+              txtAno.setText(String.valueOf(veiculo.getAno()));
+              txtCor.setEnabled(true);
+              txtCor.setText(veiculo.getCor());
+              txtKm.setEnabled(true);
+              txtKm.setText(String.valueOf(veiculo.getKm()));
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_tbVeiculoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1317,10 +1395,10 @@ public class TelaCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnVisualizar;
     private javax.swing.JComboBox cbEstado;
-    private javax.swing.JComboBox cbmarca;
+    public static javax.swing.JComboBox cbmarca;
+    private javax.swing.JComboBox cbmodelo;
     private javax.swing.JTextField idEnd;
-    private javax.swing.JTextField idEnd1;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JTextField idVeic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1353,23 +1431,23 @@ public class TelaCliente extends javax.swing.JFrame {
     private javax.swing.JLabel lbTelefone;
     private javax.swing.JTabbedPane tabelas;
     public static javax.swing.JTable tbEndereco;
-    public static javax.swing.JTable tbEndereco1;
+    public static javax.swing.JTable tbVeiculo;
     private javax.swing.JPanel tbcliente;
     private javax.swing.JPanel tbendereco;
     public static javax.swing.JTable tblCliente;
     private javax.swing.JPanel tbveiculo;
+    private javax.swing.JTextField txtAno;
     public static javax.swing.JTextField txtBairro;
     private javax.swing.JFormattedTextField txtCelular;
     public static javax.swing.JTextField txtCep;
-    public static javax.swing.JTextField txtCep1;
-    public static javax.swing.JTextField txtCep2;
     public static javax.swing.JTextField txtCidade;
     private javax.swing.JTextField txtComplemento;
-    private javax.swing.JTextField txtComplemento1;
+    public static javax.swing.JTextField txtCor;
     public static javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JFormattedTextField txtDatNasc;
     private javax.swing.JTextField txtEmail;
     public static javax.swing.JTextField txtId;
+    public static javax.swing.JTextField txtKm;
     private javax.swing.JTextField txtNome;
     public static javax.swing.JTextField txtNum;
     private javax.swing.JTextField txtPesq;
@@ -1403,7 +1481,7 @@ public class TelaCliente extends javax.swing.JFrame {
         tabelas.setEnabledAt(2, true);
          
     }
-
+//SETAR ENDEREÇO
     private void setarEndereco() throws SQLException {
         tabelas.setEnabled(true);
         tabelas.setEnabledAt(1, true);
@@ -1430,6 +1508,26 @@ public class TelaCliente extends javax.swing.JFrame {
         tbEndereco.getColumnModel().getColumn(0).setPreferredWidth(260);
         tbEndereco.getColumnModel().getColumn(1).setPreferredWidth(60);
 
+    }
+    //SETAR VEICULO
+    public void setarVeiculo(){
+        tabelas.setEnabled(true);
+        tabelas.setEnabledAt(2, true);
+        
+        VeiculoDao v = new VeiculoDao();
+        
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"ID", "MARCA", "MODELO", "COR", "ANO", "KM"});
+
+        List<Veiculo> lista = new ArrayList();
+        lista =  v.listar(Integer.parseInt(txtId.getText()));
+
+        for (Veiculo listaRetorno : lista) {
+            model.addRow(new Object[]{listaRetorno.getId(), listaRetorno.getMarca(), listaRetorno.getModelo(), listaRetorno.getCor(), listaRetorno.getAno(), listaRetorno.getKm()});
+        }
+
+        TelaCliente.tbVeiculo.setModel(model);
+        TelaCliente.tbVeiculo.getColumnModel().getColumn(0).setPreferredWidth(25);
+        TelaCliente.tbVeiculo.getColumnModel().getColumn(1).setPreferredWidth(150);
     }
 
 }
